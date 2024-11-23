@@ -28,6 +28,10 @@ http://localhost:3000
 
 ## Endpoints
 
+``` 
+* Admin Account: lucas@email.com 123456 
+```
+
 - Login
 ```
 POST /auth/login
@@ -77,7 +81,7 @@ DELETE /users/2
 
 # Autor
 
-Lucas Campos
+Lucas Campos <br/>
 https://www.linkedin.com/in/lucascamposdev/
 
 
