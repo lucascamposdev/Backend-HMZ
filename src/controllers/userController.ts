@@ -2,8 +2,20 @@ import { NextFunction, Request, Response } from "express";
 import { findAllUsers, findUserById, updateUserById, deleteUserById } from "../services/userService";
 
 export const getUsers = async (req: Request, res: Response) => {
-  const users = await findAllUsers();
-  res.json(users);
+  const { page = "1", per_page = "10" } = req.query;
+
+  const pageNumber = Math.max(parseInt(page as string, 10), 1); 
+  const perPageNumber = Math.max(parseInt(per_page as string, 10), 1); 
+
+  const { users, total } = await findAllUsers(pageNumber, perPageNumber);
+  
+  res.json({
+    page: pageNumber,
+    per_page: perPageNumber,
+    total,
+    total_pages: Math.ceil(total / perPageNumber),
+    data: users,
+  });
 };
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {

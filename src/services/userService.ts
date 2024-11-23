@@ -10,10 +10,18 @@ export const userResponseDTO = {
   role: true,
 };
 
-export const findAllUsers = async () => {
-  return prisma.user.findMany({
-    select: userResponseDTO,
+export const findAllUsers = async (page: number, perPage: number) => {
+  const skip = (page - 1) * perPage;
+
+  const users = await prisma.user.findMany({
+    skip,
+    take: perPage,
+    select: userResponseDTO, 
   });
+
+  const total = await prisma.user.count();
+
+  return { users, total };
 };
 
 export const findUserById = async (id: number) => {
