@@ -32,7 +32,13 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 };
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  const user = req.user;
   const { id } = req.params;
+
+  if(Number(id) === user?.id){
+    res.status(422).json({ message: "Cannot process the request. Deleting your own account is not permitted." });
+    return;
+  }
 
   try{
     await deleteUserById(Number(id));
